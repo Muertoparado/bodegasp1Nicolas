@@ -38,19 +38,24 @@ storageBd.post("/bodegas/add", (req, res) => {
 })
 storageBd.get('/productos/:id', (req, res) => {
     const { id } = req.params;
-    const datos={id};
     console.log(id);
     con.query(/*sql */
         `SELECT id_producto, SUM(cantidad) AS total_cantidad 
-        FROM inventario 
+        FROM inventarios 
         WHERE id = ? 
         GROUP BY id_producto 
-        ORDER BY total_cantidad DESC`,datos,
+        ORDER BY total_cantidad DESC`,
+    [id],
     (err, data) => {
-        res.send("daaaa");
+        if (err) {
+        console.error(err);
+        res.send("Error en la consulta");
+        return;
+        }
+        res.send("Consulta exitosa");
         console.log(JSON.stringify(data));
     }
     );
-});
-
+  });
+  
 export default storageBd;
