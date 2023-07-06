@@ -6,7 +6,7 @@ dotenv.config();
 const appExpress = express();
 
 appExpress.use(express.json());
-appExpress.use(body_parser.urlencoded({extended:true}));
+//appExpress.use(body_parser.urlencoded({extended:true}));
 appExpress.use("/app", storageBd);
 
 const config=JSON.parse(process.env.MY_CONFIG);

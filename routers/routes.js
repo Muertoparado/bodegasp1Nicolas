@@ -18,33 +18,39 @@ storageBd.get("/bodegas", (req, res) => {
     }
     )
 })
-//(id,nombre,id_responsable,estado, created_by, update_by, created_at, updated_at,deleted_at)
+
 storageBd.post("/bodegas/add", (req, res) => {
-   let datos=Object.values(req.body);
-   console.log(datos);
-    con.query(/*sql*/`INSERT INTO bodegas (nombre, id_responsable, estado, created_by, update_by) 
-    VALUES (?, ?, ?, ?, ?)`,datos,
+    const { id,nombre, id_responsable, estado, created_by } = req.body;
+    let datos= { id, nombre, id_responsable, estado, created_by }
+    console.log(datos);
+    con.query(`INSERT INTO bodegas SET ?`,datos,
     (err,data)=>{
         if (err) {
             console.error("Error al ejecutar la consulta de inserción: ", err);
             res.status(500).send("Error al ejecutar la consulta de inserción");
             return;
-          } 
+        } 
        // let info=JSON.stringify(data)
-        console.log(info);
+        //console.log(info);
         res.send("Datos registrados correctamente en la base de datos");
       //  res.send(info); 
     });
-})/* 
-storageBd.post('/bodegas1', (req, res) => {
-    const { nombre, id_responsable, estado, created_by } = req.body;
-    const query = 'INSERT INTO bodegas (nombre, id_responsable, estado, created_by) VALUES (?, ?, ?, ?)';
-    con.query(query, [nombre, id_responsable, estado, created_by], (error, results) => {
-      if (error) {
-        return error;
-      }
-      res.status(201).send(`Bodega creada con ID: ${results.insertId}`);
-    });
-  }); */
+})
+storageBd.get('/productos/:id', (req, res) => {
+    const { id } = req.params;
+    const datos={id};
+    console.log(id);
+    con.query(/*sql */
+        `SELECT id_producto, SUM(cantidad) AS total_cantidad 
+        FROM inventario 
+        WHERE id = ? 
+        GROUP BY id_producto 
+        ORDER BY total_cantidad DESC`,datos,
+    (err, data) => {
+        res.send("daaaa");
+        console.log(JSON.stringify(data));
+    }
+    );
+});
 
 export default storageBd;
