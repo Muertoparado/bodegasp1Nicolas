@@ -21,13 +21,13 @@ storageBd.get("/bodegas", (req, res) => {
 storageBd.post("/bodegas/add", (req, res) => {
    let datos=req.body;
    // const id=datos.id;
-    con.query(/*sql*/`INSERT INTO bodegas (datos.id, datos.nombre, datos.id_responsable, datos.estado, datos.created_by, datos.update_by, datos.created_at, datos.updated_at, datos.deleted_at)`,
+    con.query(/*sql*/`INSERT INTO bodegas SET ?`,datos);
     (err,data,fil)=>{
         res.send(JSON.stringify(datos));
-        console.log(datos);
+        console.log(data);
         res.end(JSON.stringify(data));
     }
-    )
+    
 })
 
 export default storageBd;
