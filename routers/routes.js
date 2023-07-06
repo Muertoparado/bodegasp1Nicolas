@@ -36,6 +36,24 @@ storageBd.post("/bodegas/add", (req, res) => {
       //  res.send(info); 
     });
 })
+storageBd.get('/productos', (req, res) => {
+    con.query(/*sql */
+        `SELECT id_producto, SUM(cantidad) AS total_cantidad 
+        FROM inventarios 
+        GROUP BY id_producto 
+        ORDER BY total_cantidad DESC`,
+    (err, data) => {
+        if (err) {
+        console.error(err);
+        res.send("Error en la consulta");
+        return;
+        }
+        let info =JSON.stringify(data)
+        res.send(info);
+        console.log(data);
+    }
+    );
+  });
 storageBd.get('/productos/:id', (req, res) => {
     const { id } = req.params;
     console.log(id);
@@ -56,6 +74,6 @@ storageBd.get('/productos/:id', (req, res) => {
         console.log(JSON.stringify(data));
     }
     );
-  });
-  
+});
+
 export default storageBd;
