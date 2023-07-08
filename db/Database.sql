@@ -86,7 +86,11 @@ ALTER TABLE bodegas ADD CONSTRAINT fk_created_by_b FOREIGN KEY (created_by) REFE
 ALTER TABLE bodegas ADD CONSTRAINT fk_update_by_b FOREIGN KEY (update_by) REFERENCES users(id);
 ALTER TABLE bodegas ADD CONSTRAINT fk_id_responsable FOREIGN KEY (id_responsable) REFERENCES users(id);
 ALTER TABLE historiales ADD CONSTRAINT fk_update_by_h FOREIGN KEY (update_by) REFERENCES users(id);
+ALTER TABLE historiales ADD CONSTRAINT fk_created_by_h FOREIGN KEY (created_by) REFERENCES users(id);
 
 ALTER TABLE historiales ADD CONSTRAINT fk_id_bodega_origen FOREIGN KEY (id_bodega_origen) REFERENCES bodegas(id);
 ALTER TABLE historiales ADD CONSTRAINT fk_id_bodega_destino FOREIGN KEY (id_bodega_destino) REFERENCES bodegas(id);
+
+ALTER TABLE inventarios MODIFY COLUMN id INT NOT NULL AUTO_INCREMENT;
+
 
